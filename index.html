@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Hello from SashiDo :)</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1;
+      color: #c7c8ca;
+      font-weight: 300;
+      background: #1e2228;
+      font-family: sans-serif;
+    }
+
+    #content {
+      width: 100vw;
+      height: 100vh;
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="content">
+    <button id="button" onclick="clickButton()">Try Cached Fetch</button>
+    <pre id="pre"></pre>
+  </div>
+
+  <script type="text/javascript">
+    if ('serviceWorker' in navigator && 'caches' in window) {
+      navigator.serviceWorker.register('//pivanov.github.io/fetch-cache/sw.js');
+    }
+
+    const clickButton = () => {
+      fetch(
+          '//pivanov.github.io/fetch-cache/db.json', {
+            headers: {
+              "SW-Cache-For-Seconds": 5
+            },
+          })
+        .then(r => r.json())
+        .then(data => {
+          document.getElementById('pre').innerHTML = JSON.stringify(data, null, 2);
+        });
+    }
+  </script>
+</body>
+
+</html>
